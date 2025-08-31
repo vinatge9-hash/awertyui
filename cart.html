@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en">
+<!--  -->
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:300,400,500,600,700&display=swap" rel="stylesheet">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Niyantri Coffee - Cart</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: { coffee: { 400: '#8B5E3C', 500: '#6B4F2A', 600: '#4B3A25' } }
+        }
+      }
+    }
+  </script>
+</head>
+<body style="font-family: 'Poppins', sans-serif;" class="bg-gray-50 text-gray-800">
+  <header class="w-full fixed top-0 left-0 right-0 bg-white bg-opacity-90 backdrop-filter backdrop-blur z-20 border-b border-gray-200">
+    <nav class="flex items-center justify-between p-4 md:p-6">
+      <a href="index.html" class="text-xl font-semibold">Niyantri Coffee</a>
+      <div class="space-x-4 text-sm md:text-base">
+        <a href="index.html" class="hover:underline">Home</a>
+        <a href="menu.html" class="hover:underline">Menu</a>
+        <a href="cart.html" class="hover:underline">Cart <span id="cart-count" class="ml-1 inline-block bg-coffee-500 text-white rounded-full px-2 text-xs"></span></a>
+        <a href="about.html" class="hover:underline">About</a>
+        <a href="contact.html" class="hover:underline">Contact</a>
+      </div>
+    </nav>
+  </header>
+
+  <main class="pt-28 w-full">
+    <section class="px-6 md:px-20 pb-6">
+      <h1 class="text-3xl font-semibold">Your Cart</h1>
+    </section>
+
+    <section class="px-6 md:px-20 pb-20">
+      <div id="cart-items" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+      <div id="cart-summary" class="mt-6 border-t border-gray-200 pt-6"></div>
+      <div class="mt-6" id="paypal-container"></div>
+    </section>
+  </main>
+
+  <footer class="w-full bg-gray-800 text-white py-6 mt-8">
+    <div class="px-6 md:px-20 text-sm">© 2025 Niyantri Coffee. All rights reserved.</div>
+  </footer>
+
+  <script>
+    function getCart() {
+      const raw = localStorage.getItem('cart');
+      try { return raw ? JSON.parse(raw) : []; } catch { return []; }
+    }
+    function saveCart(cart) { localStorage.setItem('cart', JSON.stringify(cart)); }
+    function updateCartCount() {
+      const cart = getCart();
+      const count = cart.reduce((sum, item) => sum + item.qty, 0);
+      const el = document.getElementById('cart-count');
+      if (el) el.textContent = count > 0 ? count : '';
+    }
+    function removeFromCart(id) {
+      let cart = getCart();
+      cart = cart.filter(i => i.id !== id);
+      saveCart(cart);
+      renderCart();
+      updateCartCount();
+    }
+    function updateQty(id, delta) {
+      const cart = getCart();
+      const item = cart.find(i => i.id === id);
+      if (!item) return;
+      item.qty = Math.max(1, item.qty + delta);
+      saveCart(cart);
+      renderCart();
+      updateCartCount();
+    }
+    function formatMoney(n) {
+      return '$' + Number(n).toFixed(2);
+    }
+    function renderCart() {
+      const items = getCart();
+      const container = document.getElementById('cart-items');
+      container.innerHTML = '';
+      if (items.length === 0) {
+        container.innerHTML = '<p class="text-gray-600">Your cart is empty.</p>';
+        document.getElementById('paypal-container').innerHTML = '';
+        document.getElementById('cart-summary').innerHTML = '';
+        return;
+      }
+      items.forEach(it => {
+        const div = document.createElement('div');
+        div.className = 'bg-white rounded-lg shadow p-4 flex items-center justify-between';
+        div.innerHTML = `
+          <div class="flex items-center gap-4">
+            <div class="w-16 h-16 bg-gray-100 rounded overflow-hidden flex items-center justify-center text-xs">${it.name.substring(0,2)}</div>
+            <div>
+              <div class="font-semibold">${it.name}</div>
+              <div class="text-sm text-gray-600">Price: ${formatMoney(it.price)}</div>
+            </div>
+          </div>
+          <div class="flex items-center gap-2">
+            <button class="qty-decr bg-gray-200 px-2 py-1 rounded" data-id="${it.id}">-</button>
+            <span class="px-2">${it.qty}</span>
+            <button class="qty-inc bg-gray-200 px-2 py-1 rounded" data-id="${it.id}">+</button>
+            <button class="remove-item bg-red-500 text-white px-2 py-1 rounded" data-id="${it.id}">Remove</button>
+          </div>`;
+        container.appendChild(div);
+      });
+
+      // Bind actions
+      container.querySelectorAll('.qty-inc').forEach(b => b.addEventListener('click', () => updateQty(b.getAttribute('data-id'), 1)));
+      container.querySelectorAll('.qty-decr').forEach(b => b.addEventListener('click', () => updateQty(b.getAttribute('data-id'), -1)));
+      container.querySelectorAll('.remove-item').forEach(b => b.addEventListener('click', () => removeFromCart(b.getAttribute('data-id'))));
+
+      // Summary and PayPal
+      const subtotal = items.reduce((sum, it) => sum + it.price * it.qty, 0);
+      const summary = document.getElementById('cart-summary');
+      summary.innerHTML = `<div class="flex justify-between items-center"><span class="font-semibold">Subtotal</span><span>${formatMoney(subtotal)}</span></div>`;
+      // PayPal button only if subtotal > 0
+      const paypalContainer = document.getElementById('paypal-container');
+      if (subtotal > 0) {
+        paypalContainer.innerHTML = `<div id="paypal-button-container"></div>`;
+        loadPayPal(subtotal);
+      } else {
+        paypalContainer.innerHTML = '';
+      }
+    }
+    function loadPayPal(total) {
+      // Load PayPal SDK
+      if (document.getElementById('paypal-sdk')) return; // already loaded
+      const script = document.createElement('script');
+      script.id = 'paypal-sdk';
+      script.src = 'https://www.paypal.com/sdk/js?client-id=sb&currency=USD';
+      script.onload = () => {
+        // Render the button
+        paypal.Buttons({
+          createOrder: function(data, actions) {
+            return actions.order.create({
+              purchase_units: [{ amount: { value: total.toFixed(2) } }]
+            });
+          },
+          onApprove: function(data, actions) {
+            return actions.order.capture().then(function(details) {
+              alert('Payment completed. Thank you, ' + details.payer.name.given_name + '!');
+              localStorage.removeItem('cart');
+              renderCart();
+              updateCartCount();
+              window.location.href = 'cart.html';
+            });
+          }
+        }).render('#paypal-button-container');
+      };
+      document.head.appendChild(script);
+    }
+    document.addEventListener('DOMContentLoaded', function(){
+      // Initialize cart UI
+      renderCart();
+      updateCartCount();
+    });
+  </script>
+</body>
+</html>
