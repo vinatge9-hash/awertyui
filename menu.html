@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<!--  -->
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:300,400,500,600,700&display=swap" rel="stylesheet">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Niyantri Coffee - Menu</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: { coffee: { 400: '#8B5E3C', 500: '#6B4F2A', 600: '#4B3A25' } }
+        }
+      }
+    }
+  </script>
+</head>
+<body style="font-family: 'Poppins', sans-serif;" class="bg-gray-50 text-gray-800">
+  <header class="w-full fixed top-0 left-0 right-0 bg-white bg-opacity-90 backdrop-filter backdrop-blur z-20 border-b border-gray-200">
+    <nav class="flex items-center justify-between p-4 md:p-6">
+      <a href="index.html" class="text-xl font-semibold">Niyantri Coffee</a>
+      <div class="space-x-4 text-sm md:text-base">
+        <a href="index.html" class="hover:underline">Home</a>
+        <a href="menu.html" class="hover:underline">Menu</a>
+        <a href="cart.html" class="hover:underline">Cart <span id="cart-count" class="ml-1 inline-block bg-coffee-500 text-white rounded-full px-2 text-xs"></span></a>
+        <a href="about.html" class="hover:underline">About</a>
+        <a href="contact.html" class="hover:underline">Contact</a>
+      </div>
+    </nav>
+  </header>
+
+  <main class="pt-24 w-full">
+    <section class="px-6 md:px-20 py-6">
+      <h1 class="text-3xl font-semibold mb-4">Our Menu</h1>
+      <p class="text-gray-700">Choose from our curated coffee selection. Add to cart and checkout securely with PayPal on the Cart page.</p>
+    </section>
+
+    <section class="px-6 md:px-20 pb-20">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Espresso -->
+        <div class="bg-white rounded-lg shadow p-4">
+          <img src="https://images.pexels.com/photos/9899785/pexels-photo-9899785.jpeg?auto=compress&cs=tinysrgb&h=650&w=940" alt="Espresso" class="w-full h-44 object-cover rounded" />
+          <h3 class="mt-2 font-semibold">Espresso</h3>
+          <p class="text-sm text-gray-600">Single shot, strong flavor</p>
+          <div class="mt-2 flex items-center justify-between">
+            <span class="font-semibold">$3.00</span>
+            <button class="add-to-cart bg-coffee-500 text-white px-3 py-2 rounded" data-id="espresso" data-name="Espresso" data-price="3">Add to cart</button>
+          </div>
+        </div>
+        <!-- Latte -->
+        <div class="bg-white rounded-lg shadow p-4">
+          <img src="https://images.pexels.com/photos/207287/pexels-photo-207287.jpeg?auto=compress&cs=tinysrgb&h=650&w=940" alt="Latte" class="w-full h-44 object-cover rounded" />
+          <h3 class="mt-2 font-semibold">Latte</h3>
+          <p class="text-sm text-gray-600">Creamy milk, silky foam</p>
+          <div class="mt-2 flex items-center justify-between">
+            <span class="font-semibold">$4.50</span>
+            <button class="add-to-cart bg-coffee-500 text-white px-3 py-2 rounded" data-id="latte" data-name="Latte" data-price="4.5">Add to cart</button>
+          </div>
+        </div>
+        <!-- Cappuccino -->
+        <div class="bg-white rounded-lg shadow p-4">
+          <img src="https://pixabay.com/get/g64c631ab2386e9f3ae848bc103e9c8a2aad00f142bf9ccb523ca5e4b93f1ea188d6b37db9235bc16c10d9585aeca07e5d0a9d43c24e794c34c26a7b2adc1399a_640.jpg" alt="Cappuccino" class="w-full h-44 object-cover rounded" />
+          <h3 class="mt-2 font-semibold">Cappuccino</h3>
+          <p class="text-sm text-gray-600">Foamy and balanced</p>
+          <div class="mt-2 flex items-center justify-between">
+            <span class="font-semibold">$4.00</span>
+            <button class="add-to-cart bg-coffee-500 text-white px-3 py-2 rounded" data-id="cappuccino" data-name="Cappuccino" data-price="4">Add to cart</button>
+          </div>
+        </div>
+        <!-- Americano -->
+        <div class="bg-white rounded-lg shadow p-4">
+          <img src="https://images.unsplash.com/photo-1561630439-2ebfb3f7bcef?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3ODkyNDZ8MHwxfHNlYXJjaHwzfHxBbWVyaWNhbm8lMjBpbiUyMGElMjBjZXJhbWljJTIwY3VwfGVufDB8MHx8fDE3NTY2NjAwMTl8MA&ixlib=rb-4.1.0&q=80&w=1080" alt="Americano" class="w-full h-44 object-cover rounded" />
+          <h3 class="mt-2 font-semibold">Americano</h3>
+          <p class="text-sm text-gray-600">Smooth and bold</p>
+          <div class="mt-2 flex items-center justify-between">
+            <span class="font-semibold">$3.50</span>
+            <button class="add-to-cart bg-coffee-500 text-white px-3 py-2 rounded" data-id="americano" data-name="Americano" data-price="3.5">Add to cart</button>
+          </div>
+        </div>
+        <!-- Mocha -->
+        <div class="bg-white rounded-lg shadow p-4">
+          <img src="https://images.unsplash.com/photo-1590516483101-a5d310803e51?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3ODkyNDZ8MHwxfHNlYXJjaHwyfHxNb2NoYSUyMHdpdGglMjBjaG9jb2xhdGUlMjBkcml6emxlfGVufDB8MHx8fDE3NTY2NjAwMjB8MA&ixlib=rb-4.1.0&q=80&w=1080" alt="Mocha" class="w-full h-44 object-cover rounded" />
+          <h3 class="mt-2 font-semibold">Mocha</h3>
+          <p class="text-sm text-gray-600">Chocolatey goodness</p>
+          <div class="mt-2 flex items-center justify-between">
+            <span class="font-semibold">$4.75</span>
+            <button class="add-to-cart bg-coffee-500 text-white px-3 py-2 rounded" data-id="mocha" data-name="Mocha" data-price="4.75">Add to cart</button>
+          </div>
+        </div>
+        <!-- Cold Brew -->
+        <div class="bg-white rounded-lg shadow p-4">
+          <img src="https://images.unsplash.com/photo-1626880493853-19fa8ed90a75?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3ODkyNDZ8MHwxfHNlYXJjaHwyfHxJY2UtY29sZCUyMGNvbGQlMjBicmV3fGVufDB8MHx8fDE3NTY2NjAwMjF8MA&ixlib=rb-4.1.0&q=80&w=1080" alt="Cold Brew" class="w-full h-44 object-cover rounded" />
+          <h3 class="mt-2 font-semibold">Cold Brew</h3>
+          <p class="text-sm text-gray-600">Smooth, cold, refreshing</p>
+          <div class="mt-2 flex items-center justify-between">
+            <span class="font-semibold">$4.25</span>
+            <button class="add-to-cart bg-coffee-500 text-white px-3 py-2 rounded" data-id="coldbrew" data-name="Cold Brew" data-price="4.25">Add to cart</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="w-full bg-gray-800 text-white py-6 mt-8">
+    <div class="px-6 md:px-20 text-sm">© 2025 Niyantri Coffee. All rights reserved.</div>
+  </footer>
+
+  <script>
+    // Cart utilities
+    function getCart() {
+      const raw = localStorage.getItem('cart');
+      try { return raw ? JSON.parse(raw) : []; } catch { return []; }
+    }
+    function saveCart(cart) {
+      localStorage.setItem('cart', JSON.stringify(cart));
+    }
+    function addToCart(name, price, id) {
+      const cart = getCart();
+      const existing = cart.find(i => i.id === id);
+      if (existing) existing.qty += 1; else cart.push({ id, name, price: Number(price), qty: 1 });
+      saveCart(cart);
+      updateCartCount();
+    }
+    function updateCartCount() {
+      const cart = getCart();
+      const count = cart.reduce((sum, item) => sum + item.qty, 0);
+      const el = document.getElementById('cart-count');
+      if (el) el.textContent = count > 0 ? count : '';
+    }
+    document.addEventListener('DOMContentLoaded', function(){
+      // wire up add-to-cart buttons
+      document.querySelectorAll('.add-to-cart').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const id = btn.getAttribute('data-id');
+          const name = btn.getAttribute('data-name');
+          const price = btn.getAttribute('data-price');
+          addToCart(name, price, id);
+        });
+      });
+      updateCartCount();
+    });
+  </script>
+</body>
+</html>
